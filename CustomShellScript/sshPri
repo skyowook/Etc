@@ -1,0 +1,5 @@
+rm -rf /Users/ben/.ssh/id_ed25519
+rm -rf /Users/ben/.ssh/id_ed25519.pub
+cp /Users/ben/.ssh/temp/github_rsa /Users/ben/.ssh/id_ed25519
+cp /Users/ben/.ssh/temp/github_rsa.pub /Users/ben/.ssh/id_ed25519.pub
+echo "Change Mode GitHub Success"
