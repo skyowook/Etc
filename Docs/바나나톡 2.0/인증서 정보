@@ -1,0 +1,9 @@
+인증서 정보
+  - 구글 키스토어 정보
+	storePassword：wln123
+	keyAlias：keyAlias
+	keyPassword：wln123
+	applicationId:org.telegram.bananatok
+
+  - 애플 인증서 정보
+    p12비밀번호 111111
