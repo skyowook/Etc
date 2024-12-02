@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+  <script>
+    function onResume() {
+      alert("TEST");
+    }
+    // Bridge Setup 
+    function setupWebViewJavascriptBridge(callback) {
+      if (navigator.userAgent.includes("Android")) {
+        if (window.WebViewJavascriptBridge) {
+          return callback(window.WebViewJavascriptBridge);
+        }
+        if (window.WVJBCallbacks) {
+          return window.WVJBCallbacks.push(callback);
+        }
+      
+        window.WVJBCallbacks = [callback];
+        const WVJBIframe = document.createElement("iframe");
+        WVJBIframe.style.display = "none";
+        WVJBIframe.src = "wvjbscheme://__BRIDGE_LOADED__";
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function () {
+          document.documentElement.removeChild(WVJBIframe);
+        }, 0);
+      } else {
+        if (window.WKWebViewJavascriptBridge) { return callback(WKWebViewJavascriptBridge); }
+        if (window.WKWVJBCallbacks) { return window.WKWVJBCallbacks.push(callback); }
+        window.WKWVJBCallbacks = [callback];
+        window.webkit.messageHandlers.iOS_Native_InjectJavascript.postMessage(null)
+      }
+    }
+
+    function testScheme() {
+      if (navigator.userAgent.includes("Android") && navigator.userAgent.includes("coinghost")) {
+        location.href="intent://cogotv?id=10#Intent;scheme=inapp_coinghost;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.coinghost.cogo;end";
+      } else if(navigator.userAgent.includes("Android")) {
+        location.href="intent://cogotv#Intent;scheme=coinghost;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.coinghost.cogo;end";
+      } else {
+        location.href="coinghost://cogotv?id=10"
+      }
+    } 
+
+    function responseCallback(responseData) {
+      console.log("responseData :::: ", responseData)
+      alert(responseData)
+    }
+
+    // 액세스 토큰 반환
+    function getAccessToken() {
+      console.log("getAccessToken")
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('GetAccessToken', null, responseCallback)
+      })
+    }
+
+    function getAccessTokenRefresh() {
+      console.log("getAccessTokenRefresh")
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('GetAccessTokenRefresh', null, responseCallback)
+      })
+    }
+
+    function getPushToken() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('GetPushToken', null, responseCallback)
+      })
+    }
+
+    function saveValue() {
+      var obj = {
+        key: "test",
+        value: "123"
+      }
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('SaveValue', obj, responseCallback)
+      })
+    }
+
+    function loadValue() {
+      var obj = {
+        key: "test"
+      }
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('LoadValue', obj, responseCallback)
+      })
+    }
+
+    function removeValue() {
+      var obj = {
+        key: "test"
+      }
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('RemoveValue', obj, responseCallback)
+      })
+    }
+
+    function moveToMail() {
+      var obj = {
+        email: "ben@bamong.com"
+      }
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToMail', obj, responseCallback)
+      })
+    }
+
+    function moveToCall() {
+      var obj = {
+        number: "0212341234"
+      }
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToCall', obj, responseCallback)
+      })
+    }
+
+    function moveToMain() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToMain', null, responseCallback)
+      })
+    }
+
+    function moveToSignIn() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToSignIn', null, responseCallback)
+      })
+    }
+
+    function moveToSignUp() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToSignUp', null, responseCallback)
+      })
+    }
+
+    function moveToDetailURL() {
+      var obj = {
+        title: "테스트",
+        url: "https://hosting-4e3b6.web.app/bridgeTest.html"
+      }
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToDetail', obj, responseCallback)
+      })
+    }
+
+    function moveToDetailPath() {
+      var obj = {
+        title: "뉴스고",
+        path: "/news"
+      }
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToDetail', obj, responseCallback)
+      })
+    }
+
+    function moveToDetailTest() {
+      var obj = {
+        title: "뉴스고",
+        path: "news"
+      }
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToDetail', obj, responseCallback)
+      })
+    }
+
+    function moveToScan() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToScan', null, responseCallback)
+      })
+    } 
+
+    function moveToNftChart() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToNftChart', null, responseCallback)
+      })
+    }
+
+    function moveToPremiumChart() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToPremiumChart', null, responseCallback)
+      })
+    }
+
+    function moveToChart() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToChart', 'type=1', responseCallback)
+      })
+    }
+
+    function moveWebToBack() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveWebToBack', null, responseCallback)
+      })
+    }
+
+    function share() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('Share', 'https://m.naver.com', responseCallback)
+      })
+    }
+
+    function appReset() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('AppReset', null, null)
+      })
+    }
+
+    function shareLink() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        var obj = {
+          shareLink: "https://coinghost.io"
+        }
+        bridge.callHandler('ShareLink', obj, responseCallback)
+      })
+    }
+
+    function moveToBrowser() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        var obj = {
+          url: "https://coinghost.io"
+        }
+        bridge.callHandler('MoveToBrowser', obj, responseCallback)
+      })
+    }
+
+    function openReviewPopup() {
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('OpenReviewPopup', null, responseCallback)
+      })
+    }  
+
+    function moveToService(typeName) {
+      var obj = {
+        type: typeName    // bank, cogoLotto, ranking
+      }
+      setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler('MoveToService', obj, responseCallback)
+      })
+    }  
+
+  </script>
+  <meta charset="utf-8">
+    <title>Bridge HTML</title>
+    <style>
+      * {
+        font-size: 60px;
+        font-family: Consolas, sans-serif;
+      }
+      input {
+        /* 생략 */
+        margin: 0.5rem;
+        padding: 0.5rem 1rem;
+
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 400;
+        text-align: center;
+        text-decoration: none;
+
+        display: inline-block;
+        width: auto;
+
+        border: none;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="button" value="MoveToBank" onclick='moveToService("wiki");'>
+    <input type="button" value="MoveToLotto" onclick='moveToService("cogoLotto");'>
+    <input type="button" value="MoveToRanking" onclick='moveToService("ranking");'>
+    <input type="button" value="MoveToPopChargeHistory" onclick='moveToService("popChargeHistory");'>
+    <input type="button" value="TestScheme" onclick='testScheme();'>
+    <input type="button" value="GetAccessToken" onclick='getAccessToken();'>
+    <input type="button" value="GetAccessTokenRefresh" onclick='getAccessTokenRefresh();'>
+    <input type="button" value="MoveToMain" onclick='moveToMain();'>
+    <input type="button" value="MoveToSignIn" onclick='moveToSignIn();'>
+    <input type="button" value="MoveToSignUp" onclick='moveToSignUp();'>
+    <input type="button" value="MoveToDetailURL" onclick='moveToDetailURL();'>
+    <input type="button" value="MoveToDetailPath" onclick='moveToDetailPath();'>
+    <input type="button" value="MoveToDetailTest" onclick='moveToDetailTest();'>
+    <input type="button" value="MoveWebToBack" onclick='moveWebToBack();'>
+    <input type="button" value="Share" onclick='share();'>
+    <input type="button" value="ShareLink" onclick='shareLink();'>
+    <input type="button" value="MoveToBrowser" onclick='moveToBrowser();'>
+    <input type="button" value="OpenReviewPopup" onclick='openReviewPopup();'>
+    <input type="button" value="MoveToNftChart" onclick='moveToNftChart();'>
+    <input type="button" value="MoveToPremiumChart" onclick='moveToPremiumChart();'>
+    <input type="button" value="MoveToChart" onclick='moveToChart();'>
+    <input type="button" value="MoveToScan" onclick='moveToScan();'>
+    <input type="button" value="SaveValue" onclick='saveValue();'>
+    <input type="button" value="LoadValue" onclick='loadValue();'>
+    <input type="button" value="RemoveValue" onclick='removeValue();'>
+    <input type="button" value="MoveToMail" onclick='moveToMail();'>
+    <input type="button" value="MoveToCall" onclick='moveToCall();'>
+    <input type="button" value="GetPushToken" onclick='getPushToken();'>
+    <input type="button" value="AppReset" onclick='appReset();'>
+  </body>
+</html>

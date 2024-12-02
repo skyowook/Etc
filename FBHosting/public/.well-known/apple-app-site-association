@@ -1,0 +1,15 @@
+{
+    "applinks": {
+        "details": [
+            {
+                "appIDs": ["TD6P8S3N25.com.skw.UIKitSample"],
+                "components": [
+                    "/*"
+                ] 
+            }
+        ]
+    },
+    "webcredentials": {
+        "apps": ["TD6P8S3N25.com.skw.UIKitSample"]
+    }
+}

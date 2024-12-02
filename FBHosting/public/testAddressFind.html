@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+            window.addEventListener("message", onReceivedPostMessage, false);
+
+            function onReceivedPostMessage(event){
+                //..ex deconstruct event into action & params
+                var action = event.data.action;
+                var params = event.data.params;
+
+                console.log("onReceivedPostMessage "+event);
+
+            }
+
+            function onReceivedActivityMessageViaJavascriptInterface(json){
+                 //..ex deconstruct data into action & params
+                 var data = JSON.parse(json);
+                 var action = data.action;
+                 var params = data.params;
+                   console.log("onReceivedActivityMessageViaJavascriptInterface "+event);
+            }
+
+            function embedPostCode() {
+                // 우편번호 찾기 찾기 화면을 넣을 element
+                var elementContainer = document.getElementById('container');
+                // 현재 scroll 위치를 저장해놓는다.
+                var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var address = ''; // 주소 변수
+
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            address = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            address = data.jibunAddress;
+                        }
+
+                        if(/Android/i.test(navigator.userAgent)) {
+                            window.Bridge.sendResultAddress(address);
+                        } else {
+                            window.webkit.messageHandlers.bridge.postMessage(address);
+                        }
+                    },
+                    // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+                    onresize : function(size) {
+                        elementContainer.style.height = size.height+'px';
+                    },
+                    width : '100%',
+                    height : '100%'
+                }).embed(elementContainer);
+
+                // iframe을 넣은 element를 보이게 한다.
+                elementContainer.style.display = 'block';
+            }
+    </script>
+    </head>
+    <body onload="embedPostCode()">
+        <div id="container" style="display:none; width:100%; height:100%; position:relative" />
+    </body>
+</html>
