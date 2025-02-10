@@ -1,5 +1,9 @@
 [{
   "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "com.koreainvestment.android.keybank",
-               "sha256_cert_fingerprints": ["2C:5C:C4:E4:DE:DB:00:43:12:9E:3D:B8:D2:86:F9:0D:59:D9:7F:31:53:0E:C6:CC:57:0B:4F:0E:FD:36:0C:F3"] }
-}]
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.skw.samplejectaos",
+    "sha256_cert_fingerprints":
+    ["AC:B2:60:05:44:DD:52:83:8D:A5:24:C8:AC:9B:AF:3A:25:16:D5:A1:C3:6A:F6:31:2D:FE:77:CD:B7:6B:FF:84"]
+  }
+}]ㅋ 
