@@ -7,6 +7,22 @@
             function calledLog() {
                 console.log("test")
             }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const goToStoreButton = document.getElementById('goToStoreButton');
+                const storeAddress = "https://apps.apple.com/app/id1598069018";
+
+                goToStoreButton.addEventListener('click', function() {
+                    navigator.clipboard.writeText(storeAddress)
+                        .then(() => {
+                            console.log("주소가 클립보드에 복사되었습니다:", storeAddress);
+                            window.location.href = storeAddress;
+                        })
+                        .catch(err => {
+                            console.error("클립보드 복사 실패:", err);
+                        });
+                });
+            });
         </script>
     </head>
     <body onload="calledOnLoad()">
@@ -20,6 +36,7 @@
         <h1><a href="https://hosting-4e3b6.web.app/">UIKitSample</a></h1>
         <h1><a href="https://hosting-4e3b6.web.app/">Android_App_Link</a></h1>
         <h1><a href="https://smart.kisb.co.kr/">Keybank</a></h1>
+        <button id="goToStoreButton">스토어로 이동 및 주소 복사</button>
         <!-- <li><a href="itms-apps://itunes.apple.com/app/1598069018">Apple Market</li>
         <li><a href="market://details?id=com.koreainvestment.android.keybank">Google Market</li> -->
     </p>
